@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-  username: { type: String, required: true },
-  email: { type: String, required: true },
-  thoughts: ,
-  friends: 
+const thoughtSchema = new mongoose.Schema({
+  thoughtText: { type: String, required: true },
+  createdAt: { type: String, required: true },
+  username: ,
+  reactions: 
 });
 
-const User = mongoose.model('User', userSchema);
+const Thought = mongoose.model('Thought', thoughtSchema);
 
 const handleError = (err) => console.error(err);
 
-User.find({})
+Thought.find({})
   .exec()
   .then(async collection => {
     if (collection.length === 0) {
@@ -20,10 +20,20 @@ User.find({})
           
         ]
       );
-      return console.log('User added', results);
+      return console.log('Thought added', results);
     }
     return console.log('Already populated');
   })
   .catch(err => handleError(err));
 
-module.exports = User;
+module.exports = Thought;
+
+const reactionSchema = new mongoose.Schema({
+  reactionId: { type: Object, },
+  reactionBody: { type: String, required: true },
+  username: { type: String, required: true },
+  createdAt: 
+});
+
+const User = mongoose.model('User', userSchema);
+
