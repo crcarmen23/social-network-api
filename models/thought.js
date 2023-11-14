@@ -1,39 +1,33 @@
-const mongoose = require('mongoose');
+const { Schema, model, Types }= require('mongoose');
 
-const thoughtSchema = new mongoose.Schema({
-  thoughtText: { type: String, required: true },
-  createdAt: { type: String, required: true },
-  username: ,
-  reactions: 
+const reactionSchema = new Schema(
+    {
+    reactionId: {type: Schema.Types.ObjectId, default: () => new Types.ObjectId()},
+    reactionBody: {type: String, required: true, maxlength: 280},
+    username: {type: String, required: true},
+    createdAt: { type: Date, default: Date.now, }
+}, {
+    toJSON: {virtuals: true}, id: false,
+  }
+);
+
+const thoughtSchema = new Schema(
+    {
+    thoughtText: {type: String, required: true, minlength: 1, maxlength: 280},
+    createdAt: {type: Date, default: Date.now},
+    username: {type: String, required: true},
+    reactions: [reactionSchema]
+}, {
+    toJSON: {virtuals: true}, id: false,
+  }
+);
+
+thoughtSchema.virtual("reactionCount").get(function () {
+    return this.reactions.length;
 });
 
-const Thought = mongoose.model('Thought', thoughtSchema);
-
-const handleError = (err) => console.error(err);
-
-Thought.find({})
-  .exec()
-  .then(async collection => {
-    if (collection.length === 0) {
-      const results = await User.insertMany(
-        [
-          
-        ]
-      );
-      return console.log('Thought added', results);
-    }
-    return console.log('Already populated');
-  })
-  .catch(err => handleError(err));
+const Thought = model('Thought', thoughtSchema);
 
 module.exports = Thought;
 
-const reactionSchema = new mongoose.Schema({
-  reactionId: { type: Object, },
-  reactionBody: { type: String, required: true },
-  username: { type: String, required: true },
-  createdAt: 
-});
-
-const User = mongoose.model('User', userSchema);
 
