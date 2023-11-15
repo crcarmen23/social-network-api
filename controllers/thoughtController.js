@@ -3,38 +3,39 @@ const { User, Thought } = require("../models");
 module.exports = {
 
     getThoughts(req, res) {
-        User.find({})
-            .then((user) => res.json(user))
+        Thought.find({})
+            .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     },
     getSingleThought(req, res) {
-        User.findOne({})
-            .then((user) => res.json(user))
+        Thought.findById(req.params.thoughtId)
+            .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     },
     createThought(req, res) {
-        User.findOne({})
-            .then((user) => res.json(user))
+        Thought.create(req.body)
+            .then((thought) => {
+                res.json(thought)})
             .catch((err) => res.status(500).json(err));
     },
     updateThought(req, res) {
-        User.findOne({})
-            .then((user) => res.json(user))
+        Thought.findByIdAndUpdate(req.params.thoughtId, {$set: req.body}, {new: true})
+            .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     },
     deleteThought(req, res) {
-        User.findOne({})
-            .then((user) => res.json(user))
+        Thought.findByIdAndDelete(req.params.thoughtId)
+            .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     },
     createReaction(req, res) {
-        User.findOne({})
-            .then((user) => res.json(user))
+        Thought.findByIdAndUpdate(req.params.thoughtId, {$addToSet:{reactions:req.body}}, {new: true})
+            .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     },
     deleteReaction(req, res) {
-        User.findOne({})
-            .then((user) => res.json(user))
+        Thought.findByIdAndUpdate(req.params.thoughtId, {$pull:{reactions:{reactionId:req.params.reactionId}}}, {new: true})
+            .then((thought) => res.json(thought))
             .catch((err) => res.status(500).json(err));
     }
 
