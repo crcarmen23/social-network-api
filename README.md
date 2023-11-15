@@ -6,7 +6,7 @@ This application allows social media companies/startups to handle large amounts 
 
 ## Installation
 
-To invoke this application, run npm install and then nodemon server.js or node server.js in intergrated terminal.
+To invoke this application, run nodemon server.js or node server.js in intergrated terminal.
 
 ## Usage
 
